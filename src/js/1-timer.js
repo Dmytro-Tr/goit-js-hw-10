@@ -71,6 +71,14 @@ function startTimer() {
       // const timeNull = this.getTimeComponents(0);
       // this.onTick(timeNull);
       // Повідомлення про закінчення таймінгу
+      iziToast.show({
+        message: 'Timer stopped!',
+        messageColor: '#fff',
+        backgroundColor: '#008000',
+        messageSize: '20',
+        position: 'topCenter',
+      });
+
       return;
     }
 
