@@ -17,6 +17,9 @@ const dataMinutes = document.querySelector('[data-minutes]');
 const dataSeconds = document.querySelector('[data-seconds]');
 const datatimePicker = document.querySelector('#datetime-picker');
 
+let userSelectedDate;
+startBtn.addEventListener('click', startTimer);
+
 startBtn.disabled = true; //Кнопка не активна
 
 const options = {
@@ -27,20 +30,28 @@ const options = {
   onClose(selectedDates) {
     const currentDate = new Date();
 
+    console.log(selectedDates[0]);
+    // console.log(currentDate);
+
     if (selectedDates[0].getTime() < currentDate) {
       iziToast.show({
         message: 'Please choose a date in the future',
+        messageColor: '#fff',
+        backgroundColor: '#FF0000',
+        messageSize: '20',
+        position: 'topCenter',
       });
       startBtn.disabled = true; //Кнопка не активна
     } else {
-      // selectedDates = selectedDates[0].getTime();
+      userSelectedDate = selectedDates[0].getTime();
       startBtn.disabled = false; //Кнопка активна
+
+      // console.log(userSelectedDate);
     }
   },
 };
 
 flatpickr(datatimePicker, options);
-let userSelectedDate;
 
 function startTimer() {
   startBtn.disabled = true;
@@ -48,18 +59,24 @@ function startTimer() {
 
   const intervalId = setInterval(() => {
     const currentTime = Date.now();
-    const ms = userSelectedDate - currentTime;
+    const deltaTime = userSelectedDate - currentTime;
 
-    // console.log(intervalId);
+    console.log(deltaTime);
 
-    if (ms <= 1000) {
+    if (deltaTime <= 0) {
       clearInterval(intervalId);
-      datatimePicker.disabled = true;
+      datatimePicker.disabled = false;
+      // Повідомлення про закінчення таймінгу
+      return;
     }
+
+    const { days, hours, minutes, seconds } = convertMs(deltaTime);
+    dataDays.textContent = addLeadingZero(days);
+    dataHours.textContent = addLeadingZero(hours);
+    dataMinutes.textContent = addLeadingZero(minutes);
+    dataSeconds.textContent = `${seconds}`;
   }, 1000);
 }
-
-startBtn.addEventListener('click', startTimer);
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
@@ -78,4 +95,8 @@ function convertMs(ms) {
   const seconds = Math.floor((((ms % day) % hour) % minute) / second);
 
   return { days, hours, minutes, seconds };
+}
+
+function addLeadingZero(value) {
+  return String(value).padStart(2, '0');
 }
