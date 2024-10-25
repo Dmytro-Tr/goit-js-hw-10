@@ -63,6 +63,11 @@ input:active {
   border: 1px solid #4e75ff;
 }
 
+input:disabled {
+  border: 1px solid #808080;
+  color: #808080;
+}
+
 button {
   border-radius: 8px;
   border: none;

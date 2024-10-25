@@ -61,11 +61,15 @@ function startTimer() {
     const currentTime = Date.now();
     const deltaTime = userSelectedDate - currentTime;
 
-    console.log(deltaTime);
+    // console.log(deltaTime);
 
     if (deltaTime <= 0) {
       clearInterval(intervalId);
       datatimePicker.disabled = false;
+
+      this.isActive = false;
+      // const timeNull = this.getTimeComponents(0);
+      // this.onTick(timeNull);
       // Повідомлення про закінчення таймінгу
       return;
     }
@@ -74,7 +78,7 @@ function startTimer() {
     dataDays.textContent = addLeadingZero(days);
     dataHours.textContent = addLeadingZero(hours);
     dataMinutes.textContent = addLeadingZero(minutes);
-    dataSeconds.textContent = `${seconds}`;
+    dataSeconds.textContent = addLeadingZero(seconds);
   }, 1000);
 }
 
