@@ -16,40 +16,44 @@ function handleSubmit(event) {
   const state = event.target.elements.state.value;
   console.log(state);
 
-  return new Promise((resolve, reject) => {
+  const promise = new Promise((resolve, reject) => {
     setTimeout(() => {
       if (state === 'fulfilled') {
         resolve(delay);
-
-        iziToast.show({
-          message: `✅ Fulfilled promise in ${delay}ms`,
-          titleSize: '16px',
-          messageColor: '#fff',
-          backgroundColor: '#59a10d',
-          position: 'topRight',
-          timeout: '3000',
-          closeOnClick: 'true',
-          progressBarColor: '#fff',
-          transitionIn: 'bounceInDown',
-          transitionOut: 'flipOutX',
-        });
       } else {
         reject(delay);
-
-        iziToast.show({
-          message: `❌ Rejected promise in ${delay}ms`,
-          titleSize: '16px',
-          messageColor: '#fff',
-          backgroundColor: '#ef4040',
-          position: 'topRight',
-          timeout: '3000',
-          closeOnClick: 'true',
-          progressBarColor: '#fff',
-          transitionIn: 'bounceInDown',
-          transitionOut: 'flipOutX',
-        });
       }
     }, delay);
     inputNumber.value = '';
   });
+
+  promise
+    .then(delay => {
+      iziToast.show({
+        message: `✅ Fulfilled promise in ${delay}ms`,
+        titleSize: '16px',
+        messageColor: '#fff',
+        backgroundColor: '#59a10d',
+        position: 'topRight',
+        timeout: '3000',
+        closeOnClick: 'true',
+        progressBarColor: '#fff',
+        transitionIn: 'bounceInDown',
+        transitionOut: 'flipOutX',
+      });
+    })
+    .catch(delay => {
+      iziToast.show({
+        message: `❌ Rejected promise in ${delay}ms`,
+        titleSize: '16px',
+        messageColor: '#fff',
+        backgroundColor: '#ef4040',
+        position: 'topRight',
+        timeout: '3000',
+        closeOnClick: 'true',
+        progressBarColor: '#fff',
+        transitionIn: 'bounceInDown',
+        transitionOut: 'flipOutX',
+      });
+    });
 }
