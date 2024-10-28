@@ -6,7 +6,7 @@ import 'izitoast/dist/css/iziToast.min.css';
 const form = document.querySelector('.form');
 const inputNumber = document.querySelector('input[type=number]');
 
-addEventListener('submit', handleSubmit);
+form.addEventListener('submit', handleSubmit);
 
 function handleSubmit(event) {
   event.preventDefault();
